@@ -1,0 +1,90 @@
+📘 Project Overview
+
+This project predicts the type of crop suitable for cultivation in a specific field based on environmental and soil parameters such as nitrogen, phosphorus, potassium levels, temperature, humidity, pH, and rainfall.
+
+The goal is to help farmers and agricultural experts make data-driven decisions to optimize yield and resource utilization.
+This is a multi-class classification problem where the model predicts one crop type from multiple possible crops.
+
+🧾 Dataset
+
+Source: Kaggle – Crop Recommendation Dataset
+
+Description: Each record contains soil nutrients, weather conditions, and the corresponding recommended crop.
+
+⚙️ Technologies and Tools Used
+Category	Tools / Libraries
+Language	Python
+Data Handling	Pandas, NumPy
+Data Visualization	Matplotlib, Seaborn
+Machine Learning	Scikit-learn
+Models Used	Decision Tree, Random Forest, KNN, SVM, Logistic Regression
+Environment	Jupyter Notebook / VS Code
+
+🔍 Project Workflow
+1. Data Preprocessing
+
+Checked for missing or duplicate values
+
+Label-encoded the target variable (crop name)
+
+Scaled numerical features using StandardScaler
+
+2. Exploratory Data Analysis (EDA)
+
+Visualized distributions of soil nutrients, temperature, and rainfall
+
+Used heatmaps to check correlations between features
+
+Compared average values of each parameter by crop type
+
+3. Model Building
+
+Implemented and compared several supervised ML algorithms:
+
+Logistic Regression
+
+K-Nearest Neighbors (KNN)
+
+Decision Tree Classifier
+
+Random Forest Classifier
+
+Support Vector Machine (SVM)
+
+4. Model Evaluation
+
+Used the following performance metrics:
+
+Accuracy Score
+
+Confusion Matrix
+
+Classification Report
+
+
+📊 Results
+Model	Accuracy
+Logistic Regression	~95%
+KNN	~96%
+Decision Tree	~98%
+Random Forest	~99% (Best Model)
+SVM	~97%
+
+✅ Random Forest Classifier gave the best performance with the highest accuracy and stability.
+
+🧠 Key Learnings
+
+End-to-end supervised ML workflow (encoding, train-test split, scaling, model evaluation)
+
+Feature importance analysis using Random Forest
+
+Practical understanding of classification algorithms
+
+Data-driven approach for real-world agriculture challenges
+
+
+✍️ Author
+Harsha Raut
+📧 harshraut9945@gmail.com
+💼 Machine Learning Enthusiast | Data Analytics Learner
+web developer(frontend) proficient in reactjs and tailwind css
