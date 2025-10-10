@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 
@@ -61,3 +62,40 @@ with col2:
     st.subheader("Event Location Region Count")
     eventregion=df['event_location_region'].value_counts()
     st.bar_chart(eventregion)
+
+
+residencecountbyreg=df['event_location_region'].value_counts() 
+st.subheader('Residence percentage Region')
+fig,ax=plt.subplots()
+ax.pie(
+residencecountbyreg,labels=
+residencecountbyreg.index,autopct='%1.1f%%')
+st.pyplot(fig)
+
+regionaverage=df.groupby('event_location_region')['age'].mean()
+st.subheader('AVg Age by region')
+st.bar_chart(regionaverage)
+
+col1, col2 = st.columns(2)
+with col1:
+    IncidentcountbyNat = df.groupby('citizenship').size().reset_index(name='incident_count')
+    st.subheader('Incident Count by Nationality')
+    st.write(IncidentcountbyNat)
+with col2:
+    genderInc = df.groupby('gender').size().reset_index(name="incident_count")
+    st.subheader('Incident Count by Gender')
+    st.write(genderInc)
+
+
+      # Time-based analysis (events at specific times)
+    df['date_of_event'] = pd.to_datetime(df['date_of_event'])
+    df['year'] = df['date_of_event'].dt.year
+    df['month'] = df['date_of_event'].dt.month_name()  # Format month as month name
+    time_events = df.groupby(['year', 'month']).size().reset_index(name='incident_count')
+    time_events['year_month'] = time_events['month'] + ' ' + time_events['year'].astype(str)
+    st.subheader('Time-Based Events')
+    st.line_chart(time_events.set_index('year_month')['incident_count'])
+
+
+
+ 
