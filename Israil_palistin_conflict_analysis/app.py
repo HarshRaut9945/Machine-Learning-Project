@@ -39,3 +39,25 @@ if upload_file is not None:
     st.sidebar.write(weapons_counts)
 
     # Data analysis part
+st.title("Israil  palestin Conflict Analysis")
+st.write('Dataset Sample',df)
+
+col1,col2=st.columns(2)
+with col1:
+    st.subheader("Type of Injuries")
+    type_of_injury=df['type_of_injury'].value_counts()
+    st.bar_chart(type_of_injury)
+with col2:
+    st.subheader("MaleFemailCount")
+    MFcounts=df['gender'].value_counts()
+    st.bar_chart(MFcounts,color='#FF0000') 
+
+col1,col2=st.columns(2)
+with col1:
+    st.subheader("Age sumamry")
+    age=df['age'].describe()
+    st.write(age)
+with col2:
+    st.subheader("Event Location Region Count")
+    eventregion=df['event_location_region'].value_counts()
+    st.bar_chart(eventregion)
