@@ -10,7 +10,7 @@ model_path = os.path.join(r"C:\Users\Lenovo\OneDrive\Desktop\Machine LEarning PR
 # pickle.load(open('model.pkl','rb'))
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
-
+  
 app=Flask(__name__)
 
 def preprocess_input(input_str):

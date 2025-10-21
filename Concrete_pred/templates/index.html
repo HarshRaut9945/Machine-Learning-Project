@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Concrete Strength Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #2c3e50, #4ca1af);
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        width: 100%;
+        max-width: 700px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+      }
+
+      .form-label {
+        font-weight: 500;
+      }
+
+      .btn-custom {
+        width: 100%;
+        background: #00b894;
+        color: white;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      .btn-custom:hover {
+        background: #019875;
+        transform: scale(1.05);
+      }
+
+      .result-box {
+        background: #fff;
+        color: #333;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      img {
+        width: 100px;
+        display: block;
+        margin: 0 auto 20px auto;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255,255,255,0.4);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <img src="{{ url_for('static', filename='img.jpg') }}" alt="Concrete Logo">
+      <h1>Concrete Strength Predictor</h1>
+
+      <form action="/predict" method="post">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="cement" class="form-label">Cement</label>
+            <input type="number" class="form-control" id="cement" name="cement" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="blastFurnace" class="form-label">Blast Furnace</label>
+            <input type="number" class="form-control" id="blastFurnace" name="blastFurnace" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="flyAsh" class="form-label">Fly Ash</label>
+            <input type="number" class="form-control" id="flyAsh" name="flyAsh" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="water" class="form-label">Water</label>
+            <input type="number" class="form-control" id="water" name="water" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="superplasticizer" class="form-label">Superplasticizer</label>
+            <input type="number" class="form-control" id="superplasticizer" name="superplasticizer" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="courseAggregate" class="form-label">Coarse Aggregate</label>
+            <input type="number" class="form-control" id="courseAggregate" name="courseAggregate" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="fineaggregate" class="form-label">Fine Aggregate</label>
+            <input type="number" class="form-control" id="fineaggregate" name="fineaggregate" step="any" required>
+          </div>
+          <div class="col-md-6">
+            <label for="age" class="form-label">Age (days)</label>
+            <input type="number" class="form-control" id="age" name="age" step="any" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom mt-4">Predict Strength</button>
+      </form>
+
+      {% if strength %}
+      <div class="result-box mt-3">
+        <h5>Predicted Concrete Strength:</h5>
+        <h3><strong>{{ strength }}</strong></h3>
+      </div>
+      {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
