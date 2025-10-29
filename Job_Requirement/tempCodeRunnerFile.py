@@ -5,7 +5,6 @@ import pickle
 import pandas as pd 
 import seaborn as sns
 import matplotlib.pyplot as plt 
-import os
 
 #=================================Create App ============
 app=Flask(__name__)
@@ -13,16 +12,8 @@ app=Flask(__name__)
 
 #==================================Loading Model ===========
 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, 'models', 'model.pkl')
-scaler_path = os.path.join(BASE_DIR, 'models', 'scaler.pkl')
-
-rfc = pickle.load(open(model_path, 'rb'))
-scaler = pickle.load(open(scaler_path, 'rb'))
-
-# rfc=pickle.load(open('models/model.pkl','rb'))
-# scaler=pickle.load(open('models/scaler.pkl','rb'))
+rfc=pickle.load(open('models/model.pkl','rb'))
+scaler=pickle.load(open('models/scaler.pkl','rb'))
 
 
 #=====================prediction function====================================================
@@ -61,7 +52,7 @@ def job():
     return render_template('job.html')
 
 @app.route('/ana')
-def ana():
+def job():
     return render_template('ana.html')
 
 @app.route("/placement", methods=['POST','GET'])
