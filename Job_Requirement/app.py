@@ -12,7 +12,7 @@ app=Flask(__name__)
 
 
 #==================================Loading Model ===========
-
+df=pd.read_csv(r"C:\Users\Lenovo\OneDrive\Documents\Data set\MLL\Job_requirement\HR_comma_sep.csv.crdownload")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, 'models', 'model.pkl')
@@ -23,6 +23,41 @@ scaler = pickle.load(open(scaler_path, 'rb'))
 
 # rfc=pickle.load(open('models/model.pkl','rb'))
 # scaler=pickle.load(open('models/scaler.pkl','rb'))
+
+
+#==================================dasboard Function ===========
+
+def reading_cleaning(df):
+     df.drop_duplicates(inplace=True)
+     cols = df.columns.tolist()
+     df.columns = [x.lower() for x in cols]
+   
+     return df
+ 
+df = reading_cleaning(df)
+
+def employee_important_info(df):
+    # Average satisfaction level
+    average_satisfaction = df['satisfaction_level'].mean()
+
+    # Department-wise average satisfaction level
+    department_satisfaction = df.groupby('department')['satisfaction_level'].mean()
+
+    # Salary-wise average satisfaction level
+    salary_satisfaction = df.groupby('salary')['satisfaction_level'].mean()
+
+    # Employees who left
+    left_employees = len(df[df['left'] == 1])
+
+    # Employees who stayed
+    stayed_employees = len(df[df['left'] == 0])
+    
+    return average_satisfaction, department_satisfaction, salary_satisfaction, left_employees, stayed_employees
+
+
+
+
+
 
 
 #=====================prediction function====================================================
@@ -62,7 +97,14 @@ def job():
 
 @app.route('/ana')
 def ana():
-    return render_template('ana.html')
+    average_satisfaction, department_satisfaction, salary_satisfaction, left_employees, stayed_employees= employee_important_info(df)
+  
+    # Convert Series objects to dictionaries
+    department_satisfaction= department_satisfaction.to_dict()
+    salary_satisfaction = salary_satisfaction.to_dict()
+    return render_template('ana.html', df=df.head(),average_satisfaction=average_satisfaction,
+                           department_satisfaction=department_satisfaction,salary_satisfaction=salary_satisfaction,
+                           left_employees=left_employees,stayed_employees=stayed_employees)
 
 @app.route("/placement", methods=['POST','GET'])
 def pred():
