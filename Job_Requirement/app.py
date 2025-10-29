@@ -55,7 +55,36 @@ def employee_important_info(df):
     return average_satisfaction, department_satisfaction, salary_satisfaction, left_employees, stayed_employees
 
 
+# def plots(df,col):
+#     values = df[col].unique()
+#     plt.figure(figsize=(12,8))
+    
+#     explode = [0.1 if len(values) >1 else 0] * len(values)
+#     plt.pie(df[col].value_counts(),explode=explode,startangle=40,autopct='%1.1f%%',shadow=True)
+#     labels = [f'{value} ({col})' for value in values]
+#     plt.legend(labels=labels,loc='upper right')
+    
+#     plt.title(f"distribution of {col}")
+#     plt.savefig('static/'+ col+ '.png')
+#     plt.close
 
+def plots(df, col):
+    values = df[col].unique()
+    plt.figure(figsize=(12, 8))
+    
+    explode = [0.1 if len(values) > 1 else 0] * len(values)
+    plt.pie(df[col].value_counts(), explode=explode, startangle=40, autopct='%1.1f%%', shadow=True)
+    labels = [f'{value} ({col})' for value in values]
+    plt.legend(labels=labels, loc='upper right')
+    
+    plt.title(f"Distribution of {col}")
+
+    # ✅ Save in static folder using absolute path
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    os.makedirs(static_dir, exist_ok=True)   # creates folder if missing
+    file_path = os.path.join(static_dir, f'{col}.png')
+    plt.savefig(file_path)
+    plt.close()
 
 
 
@@ -98,6 +127,15 @@ def job():
 @app.route('/ana')
 def ana():
     average_satisfaction, department_satisfaction, salary_satisfaction, left_employees, stayed_employees= employee_important_info(df)
+
+         # call plot function 
+    plots(df,'left')
+    plots(df,'salary')
+      
+    plots(df, 'number_project')
+    plots(df, 'department')
+
+
   
     # Convert Series objects to dictionaries
     department_satisfaction= department_satisfaction.to_dict()
