@@ -87,6 +87,81 @@ def plots(df, col):
     plt.close()
 
 
+def distribution(df,col):
+    values = df[col].unique()
+    plt.figure(figsize=(15,8))
+    sns.countplot(x=df[col],hue='left',palette='Set1',data=df)
+    labels = [f"{val} ({col})" for val in values]
+    plt.legend(labels=labels,loc="upper right")
+    plt.title(f"distribution of {col}")
+    plt.xticks(rotation=90)
+
+     # ✅ Ensure correct static directory path
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    os.makedirs(static_dir, exist_ok=True)
+    
+    # ✅ Save plot to static folder
+    file_path = os.path.join(static_dir, f"{col}_distribution.png")
+    plt.savefig(file_path)
+    
+    # ✅ Close plot after saving
+    plt.close()
+
+def comparison(df, x, y):
+    plt.figure(figsize=(15, 10))
+    sns.barplot(x=x, y=y, hue='left', data=df, ci=None)
+    plt.title(f'{x} vs {y}', fontsize=16, fontweight='bold')
+
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    os.makedirs(static_dir, exist_ok=True)
+
+    # ✅ Save as fixed name
+    file_path = os.path.join(static_dir, 'comparison.png')
+    plt.savefig(file_path, bbox_inches='tight')
+    plt.close()
+
+def corr_with_left(df):
+    df_encoded = pd.get_dummies(df)
+    correlations = df_encoded.corr()['left'].sort_values()[:-1]
+    colors = ['skyblue' if corr >= 0 else 'salmon' for corr in correlations]
+    plt.figure(figsize=(15, 10))
+    correlations.plot(kind='barh', color=colors)
+    plt.title('Correlation with Left', fontsize=16, fontweight='bold')
+    plt.xlabel('Correlation', fontsize=14, fontweight='bold')
+    plt.ylabel('Features', fontsize=14, fontweight='bold')
+    plt.tight_layout()
+
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    os.makedirs(static_dir, exist_ok=True)
+
+    # ✅ Save as fixed name
+    file_path = os.path.join(static_dir, 'correlation.png')
+    plt.savefig(file_path, bbox_inches='tight')
+    plt.close()
+    
+
+    
+def histogram(df, col):
+    fig, axes = plt.subplots(1, 2, figsize=(15, 10))  # Create a grid of 1 row and 2 columns
+
+    # Plot the first histogram
+    sns.histplot(data=df, x=col, hue='left', bins=20, ax=axes[0])
+    axes[0].set_title(f"Histogram of {col}", fontsize=16, fontweight='bold')
+
+    # Plot the second histogram
+    sns.kdeplot(data=df, x='satisfaction_level', y='last_evaluation', hue='left', shade=True, ax=axes[1])
+    axes[1].set_title("Kernel Density Estimation", fontsize=16, fontweight='bold')
+
+    plt.tight_layout()  # Adjust the layout to prevent overlapping
+
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    os.makedirs(static_dir, exist_ok=True)
+
+    # ✅ Save as fixed name
+    file_path = os.path.join(static_dir, 'satisfaction_level_histogram.png')
+    plt.savefig(file_path, bbox_inches='tight')
+    plt.close()
+
 
 
 #=====================prediction function====================================================
@@ -135,7 +210,11 @@ def ana():
     plots(df, 'number_project')
     plots(df, 'department')
 
+    comparison(df, 'department', 'satisfaction_level')
 
+    corr_with_left(df)
+
+    histogram(df, 'satisfaction_level')
   
     # Convert Series objects to dictionaries
     department_satisfaction= department_satisfaction.to_dict()
